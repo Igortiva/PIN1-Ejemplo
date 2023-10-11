@@ -1,0 +1,16 @@
+version: '3'
+services:
+   registry:
+      container_name: registry
+      image: registry:2.8.3
+      ports:
+        - "5000:5000"
+      volumes:
+        - PI1Group1:/var/lib/registry
+      networks:
+        - PI1Group1
+      restart: unless-stopped
+volumes:
+   PI1Group1:
+networks:
+   PI1Group1:
