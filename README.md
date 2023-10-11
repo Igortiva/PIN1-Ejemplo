@@ -3,7 +3,7 @@
 
 En este proyectó cumplimos con los requerimientos solicitados en el PDF que serían los siguientes.
 
-- [ ] Instalar Docker
+- [x] Instalar Docker
 - [ ] Lanzar un contenedor custom de Jenkins
 - [ ] Correr un pipeline con ciertas customizaciones
 - [ ] Crear una imagen y enviarla a nuestro propio register
