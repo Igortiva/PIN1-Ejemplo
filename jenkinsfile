@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build and tag Docker Image'){
+            steps {
+                docker.build('app1:latest', '.')
+                docker.image('app1:latest', 'localhost:5000/app1')
+            }
+        }
+        stage('Push Docker image to local register'){
+            steps {
+              docker.withRegister('http://localhost:5000')
+              docker.image('localhost:5000/app1').push()
+            }
+        }
+        stage('Scaning image'){
+            steps {
+              trivy.image('localhost:5000/app1')
+            }
+        }
+    }
+}
