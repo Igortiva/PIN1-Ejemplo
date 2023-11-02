@@ -1,19 +1,23 @@
 version: '3'
+
 services:
-   jenkins:
-      container_name: jenkins
-      image: jenkins/jenkins:jdk17
-      ports:
-        - "8080:8080"
-        - "50000:50000"
-      volumes:
-        - jenkins_home:/var/jenkins_home
-      environment:
-        - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-      networks:
-        - jenkins-net
-      restart: unless-stopped
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:latest
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins_home:/var/jenkins_home:rw
+      - /usr/bin/docker:/usr/bin/docker
+    restart: on-failure
+
+
 volumes:
-   jenkins_home:
+  jenkins_home:
 networks:
-   jenkins-net:
+  jenkins-net:
+
+

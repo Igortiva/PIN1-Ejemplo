@@ -6,7 +6,7 @@ pipeline {
   }
 
   environment {
-    ARTIFACT_ID = "elbuo8/webapp:${env.BUILD_NUMBER}"
+    ARTIFACT_ID = "group1/webapp:${env.BUILD_NUMBER}"
   }
    stages {
    stage('Building image') {
@@ -27,14 +27,14 @@ pipeline {
    stage('Deploy Image') {
       steps{
         sh '''
-        docker tag testapp 127.0.0.1:5000/mguazzardo/testapp
-        docker push 127.0.0.1:5000/mguazzardo/testapp   
+        docker tag testapp 127.0.0.1:5000/grupo1/testapp
+        docker push 127.0.0.1:5000/grupo1/testapp   
         '''
         }
       }
    stage('Vulnerability Scan - Docker ') {
         steps {
-          sh "docker run  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity=critical 127.0.0.1:5000/mguazzardo/testapp"
+          sh "docker run  -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --severity=critical 127.0.0.1:5000/grupo1/testapp"
             }
         }
     }
