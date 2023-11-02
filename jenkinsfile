@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     // Define the Docker plugin variable
-                    docker = docker.withRegistry(REGISTRY_URL)
+                    env.docker = docker.withRegistry(REGISTRY_URL)
 
                     // Build the Docker image
                     docker.build('app1:latest', '.')
