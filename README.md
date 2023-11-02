@@ -16,3 +16,7 @@ En este proyectó cumplimos con los requerimientos solicitados en el PDF que ser
 2. Ejecutaremos el comando `./instales.sh`
 3. Para desplegar Jenkins y nuestro repo custom ejecutaremos `./runprojectlinux.sh`
 4. Para construir la imagen y actualizará si hacemos cambios ejecutar `./buildimage.sh`
+
+
+
+
