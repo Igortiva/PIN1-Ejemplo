@@ -4,16 +4,17 @@ pipeline {
         stage('Build and tag Docker Image') {
             steps {
                 script {
+                    // Realiza la construcción y etiquetado de la imagen
                     docker.build('app1:latest', '.')
-                    docker.image('app1:latest', 'localhost:5000/app1')
                 }
             }
         }
-        stage('Push Docker image to local register') {
+        stage('Push Docker image to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('http://localhost:5000', 'my-registry-credentials') {
-                        docker.image('localhost:5000/app1').push()
+                    // Empuja la imagen a Docker Hub con el nombre del repositorio
+                    docker.withRegistry('https://index.docker.io/v1/') {
+                        docker.image('app1:latest').push('andreyrojasd/mundos-e:tagname')
                     }
                 }
             }
@@ -21,7 +22,8 @@ pipeline {
         stage('Scanning image') {
             steps {
                 script {
-                    trivy.image('localhost:5000/app1')
+                    // Realiza el escaneo de la imagen
+                    trivy.image('app1:latest')
                 }
             }
         }
