@@ -1,23 +1,32 @@
 pipeline {
     agent any
-
-    // Define the Docker plugin variable
-    docker = docker.withRegistry('https://index.docker.io/v1/')
+    parameters {
+        string(name: 'REGISTRY_URL', defaultValue: 'https://index.docker.io/v1/')
+        string(name: 'REPOSITORY_NAME', defaultValue: 'andreyrojasd/mundos-e')
+        string(name: 'TAG_NAME', defaultValue: 'tagname')
+    }
 
     stages {
         stage('Build and tag Docker Image') {
             steps {
-                // Build the Docker image
-                docker.build('app1:latest', '.')
+                script {
+                    // Define the Docker plugin variable
+                    docker = docker.withRegistry(REGISTRY_URL)
 
-                // Tag the Docker image
-                docker.image('app1:latest').tag('andreyrojasd/mundos-e:tagname')
+                    // Build the Docker image
+                    docker.build('app1:latest', '.')
+
+                    // Tag the Docker image
+                    docker.image('app1:latest').tag(REPOSITORY_NAME + ':' + TAG_NAME)
+                }
             }
         }
         stage('Push Docker image to Docker Hub') {
             steps {
-                // Push the Docker image to Docker Hub
-                docker.image('andreyrojasd/mundos-e:tagname').push()
+                script {
+                    // Push the Docker image to Docker Hub
+                    docker.image(REPOSITORY_NAME + ':' + TAG_NAME).push()
+                }
             }
         }
     }
