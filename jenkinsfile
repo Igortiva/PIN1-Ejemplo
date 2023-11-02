@@ -21,13 +21,5 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker image to Docker Hub') {
-            steps {
-                script {
-                    // Push the Docker image to Docker Hub
-                    docker.image(REPOSITORY_NAME + ':' + TAG_NAME).push()
-                }
-            }
-        }
     }
 }
