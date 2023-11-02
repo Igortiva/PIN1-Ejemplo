@@ -13,7 +13,6 @@ pipeline {
       steps{
           sh '''
           ls
-          cd PIN1
           docker build -t testapp .
              '''  
         }
