@@ -1,25 +1,37 @@
 pipeline {
-    agent any
-    parameters {
-        string(name: 'REGISTRY_URL', defaultValue: 'https://index.docker.io/v1/')
-        string(name: 'REPOSITORY_NAME', defaultValue: 'andreyrojasd/mundos-e')
-        string(name: 'TAG_NAME', defaultValue: 'tagname')
+  agent {
+    docker {
+      image 'jenkins/agent:latest'
+    }
+  }
+
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker build -t andreyrojasd/mundos-e:latest .'
+      }
     }
 
-    stages {
-        stage('Build and tag Docker Image') {
-            steps {
-                script {
-                    // Define the Docker plugin variable
-                    env.docker = docker.withRegistry(REGISTRY_URL)
-
-                    // Build the Docker image
-                    docker.build('app1:latest', '.')
-
-                    // Tag the Docker image
-                    docker.image('app1:latest').tag(REPOSITORY_NAME + ':' + TAG_NAME)
-                }
-            }
-        }
+    stage('Tag') {
+      steps {
+        sh 'docker tag andreyrojasd/mundos-e:latest andreyrojasd/mundos-e:${BUILD_TAG}'
+      }
     }
+
+    stage('Push') {
+      steps {
+        sh 'docker push andreyrojasd/mundos-e:${BUILD_TAG}'
+      }
+    }
+
+    stage('Scan') {
+      steps {
+        sh 'docker scan andreyrojasd/mundos-e:${BUILD_TAG}'
+      }
+    }
+  }
+
+  environment {
+    BUILD_TAG = sh(returnStdout: true, script: 'echo ${GIT_COMMIT}-${BUILD_NUMBER}')
+  }
 }
