@@ -8,9 +8,9 @@ services:
       volumes:
         - PI1Group1:/var/lib/registry
       networks:
-        - PI1Group1
+        - jenkins-net
       restart: unless-stopped
 volumes:
    PI1Group1:
 networks:
-   PI1Group1:
+   jenkins-net:
